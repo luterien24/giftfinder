@@ -2,16 +2,106 @@
 {% load profile_tags %}
 
 {% block Content %}
+<div class="content">
+
+	<div class="items-title"><h2>GiftFinder API</h3></div>
+
+	<div class="items-title">Buraya hem POST hem de GET isteği yapabilirsin, test amaçlı olarak ikisini de koydum kolay olsun diye. İki türlü de aynı sonuç dönüyor.</div>
+
+	<div class="items-title">API URL'i : <a href="/api/1.0/">/api/1.0/</a></div>
+
+	<div class="items-title">Hediye bulucu URL'i : <a href="/api/find_gift/">/api/find_gift/</a></div>
+
+	<div class="items">
+
+		<div class="items-title"><h3>Gönderebileceğin Veriler</h2></div>
+
+		<div class="item">
+
+			<div class="item-title">interests</div>
+
+			<div class="item-desc">hediye alınacak kişinin ilgi alanları</div>
+
+			<div class="item-note">zorunlu mu : hayır</div>
+
+			<div class="item-note">format : liste</div>
+
+			<div class="item-note">GET örneği : /?interests=Internet&interests=Yemek</div>
+
+		</div>
+
+		<div class="item">
+
+			<div class="item-title">categories</div>
+
+			<div class="item-desc">hediyenin ait olduğu kategori</div>
+
+			<div class="item-note">zorunlu mu : hayır</div>
+
+			<div class="item-note">format : liste</div>
+
+			<div class="item-note">GET örneği : /?categories=EvEsyasi</div>
+
+		</div>
+
+		<div class="item">
+
+			<div class="item-title">recipients</div>
+
+			<div class="item-desc">hediye alınacak kişi</div>
+
+			<div class="item-note">zorunlu mu : hayır</div>
+
+			<div class="item-note">format : liste</div>
+
+			<div class="item-note">GET örneği : /?recipients=arkadas</div>
+
+		</div>
+
+		<div class="item">
+
+			<div class="item-title">age</div>
+
+			<div class="item-desc">hediye alınacak kişinin yaş aralığı</div>
+
+			<div class="item-note">zorunlu mu : hayır</div>
+
+			<div class="item-note">format : yas_alt_sınırı-yas_ust_sınırı</div>
+
+			<div class="item-note">GET örneği : /?age=20-25</div>
+
+		</div>
+
+		<div class="item">
+
+			<div class="item-title">sex</div>
+
+			<div class="item-desc">hediye alınacak kişinin cinsiyeti</div>
+
+			<div class="item-note">zorunlu mu : hayır</div>
+
+			<div class="item-note">format : string</div>
+
+			<div class="item-note">değerler : male, female, both</div>
+
+			<div class="item-note">default değer : both, yani her ikisine de uygun hediyeleri döndürüyor bir değer göndermezsen</div>
+
+			<div class="item-note">GET örneği : /?sex=male</div>
+
+		</div>
 
 
-	<div class="title">Welcome!</div>
+		<div class="item">
 
-	<div class="content story-list">
+			<div class="item-title"><h3>Örnek GET İstekleri</h3></div>
 
-		hey
+			<div class="item-note"><a href="http://dunyayidegistir.com/api/find_gift/?recipients=arkadas&interests=Futbol&interests=Internet&interests=Yemek&categories=Yiyecek&age=10-20">http://dunyayidegistir.com/api/find_gift/?recipients=arkadas&interests=Futbol&interests=Internet&interests=Yemek&categories=Yiyecek&age=10-20</a></div>
 
+			<div class="item-note">futbol, internet, yemek ile ilgilnen 10-20 yaş arası arkadaşlara alınabilecek hediyeler</div>
+
+		</div>
 
 	</div>
-
+</div>
 {% endblock %}
 

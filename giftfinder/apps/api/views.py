@@ -3,6 +3,8 @@ from django.shortcuts import render
 from rest_framework import viewsets, filters, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
 
 from apps.items.models import Item, Tag, Category, Recipient, Occasion, Store, Like
 from apps.items.serializers import ItemSerializer, TagSerializer, CategorySerializer, RecipientSerializer, OccasionSerializer, \
@@ -10,23 +12,57 @@ from apps.items.serializers import ItemSerializer, TagSerializer, CategorySerial
 
 from apps.items.gift_finder import GiftManager
 
+## TEST_MODE
+
 @api_view(['GET', 'POST'])
 def find_gift(request):
     """ gift finder """
     if request.method == "POST":
+        try:
+            data = request.POST
+            interests = data.getlist("interests", [])
+            categories = data.getlist("categories", [])
+            recipients = data.getlist("recipients", [])
+            min_age, max_age = tuple(data.get("age", "-").split("-"))
+            sex = data.get("sex", "both")
+            items = Item.objects.filter(tags__name__in=interests)
 
-        interests = request.POST.get("interests", [])
-        categories = request.POST.get("categories", [])
-        recipients = request.POST.get("recipients", [])
-        min_age, max_age = tuple(request.POST.get("age", "-").split("-"))
-        sex = request.POST.get("sex", "both")
+            item_serializer = ItemSerializer(items, many=True, context={"request":request})
 
-        items = Item.objects.filter(tags__name__in=interests, category__name__in=categories, 
-            recipients__name__in=recipients)
-
-        return Response(items)
+            return Response(item_serializer.data)
+        except Exception as e:
+            print "ERROR !!! - ", str(e)
     elif request.method == "GET":
-        return Response({'hey':'hey'})
+        try:
+            data = request.GET
+            print "request.GET : ", request.GET
+            print "interests : ", data.getlist("interests", [])
+            interests = data.getlist("interests", [])
+            categories = data.getlist("categories", [])
+            recipients = data.getlist("recipients", [])
+            min_age, max_age = tuple(data.get("age", "-").split("-"))
+            sex = data.get("sex", "both")
+
+
+            items = Item.objects.filter(sex=sex)
+
+            if interests:
+                items = items.filter(tags__name__in=interests)
+
+            if categories:
+                item = items.filter(category__name__in=categories)
+
+            if recipients:
+                item = items.filter(recipients__name__in=recipients)
+
+            if min_age and max_age:
+                items = items.filter(min_age__lte=min_age, max_age__gte=max_age)
+
+            item_serializer = ItemSerializer(items, many=True, context={"request":request})
+
+            return Response(item_serializer.data)
+        except Exception as e:
+            print "ERROR !!! - ", str(e)
     else:
         return Response("No such method.")
 
@@ -104,14 +140,14 @@ def tester(request):
         test code
     """
     import requests
-    url = "http://127.0.0.1:8000/api/find_gift/"
+    url = "http://127.0.0.1:8000/api/find_gift/?recipients=arkadas&interests=Futbol&interests=Internet&interests=Yemek&categories=Yiyecek"
     data = {
         "recipients" : ["arkadas",],
-        "categories" : ["Yetiskinler icin"],
-        "interests" : ["Futbol", "Internet", "Bilgisayar"]
+        "categories" : ["Yetiskinler icin", "Yiyecek"],
+        "interests" : ["Futbol", "Internet", "Bilgisayar", "Yemek"]
     }
 
-    r = requests.post(url, data=data)
+    r = requests.get(url)
 
     raise Exception(r.content)
 

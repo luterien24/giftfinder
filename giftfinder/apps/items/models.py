@@ -47,6 +47,7 @@ class Tag(models.Model):
 
 class Category(models.Model):
 	""" ev esyasi, el yapimi, cocuklar icin, teknoloji, nostalji vs """
+	parent = models.ForeignKey('Category', verbose_name=_('Category'), null=True, blank=True)
 	name = models.CharField(_("Name"), max_length=200)
 
 	def __unicode__(self):

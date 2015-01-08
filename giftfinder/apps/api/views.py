@@ -31,7 +31,7 @@ def backup(request):
 
     for k, v in dx.items():
 
-        r = requests.get(value)
+        r = requests.get(v)
 
         key = k + "." + date_key
         

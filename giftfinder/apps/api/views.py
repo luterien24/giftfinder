@@ -26,13 +26,12 @@ def backup(request):
 
     dx = json.loads(r.content)
 
+    nw = datetime.datetime.now()
     date_key = nw.day + nw.month + nw.year + nw.hour + nw.minute + nw.second
 
     for k, v in dx.items():
 
         r = requests.get(value)
-
-        nw = datetime.datetime.now()
 
         key = k + "." + date_key
         

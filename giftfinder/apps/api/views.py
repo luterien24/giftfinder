@@ -1,4 +1,7 @@
+import os
+
 from django.shortcuts import render
+from django.conf import settings
 
 from rest_framework import viewsets, filters, status
 from rest_framework.decorators import api_view
@@ -13,6 +16,41 @@ from apps.items.serializers import ItemSerializer, TagSerializer, CategorySerial
 from apps.items.gift_finder import GiftManager
 
 ## TEST_MODE
+
+def backup(request):
+    import requests
+    import json
+    import datetime
+
+    r = requests.get("http://dunyayidegistir.com/api/1.0/")
+
+    dx = json.loads(r.content)
+
+    date_key = nw.day + nw.month + nw.year + nw.hour + nw.minute + nw.second
+
+    for k, v in dx.items():
+
+        r = requests.get(value)
+
+        nw = datetime.datetime.now()
+
+        key = k + "." + date_key
+        
+        file_path = os.path.join(settings.PROJECT_DIR + key)
+
+        f = open(file_path, "w")
+        f.write(r.content)
+        f.close()
+
+    tmp = """Backup created = {{ date_key }}"""
+
+    ctx = {
+        "date_key" : date_key
+    }
+
+    return render(request, tmp, ctx)
+
+
 
 @api_view(['GET', 'POST'])
 def find_gift(request):

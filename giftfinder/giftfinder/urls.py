@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from rest_framework import routers
 
 from apps.api.views import ItemViewSet, TagViewSet, CategoryViewSet, RecipientViewSet, \
-        OccasionViewSet, StoreViewSet, LikeViewSet, find_gift, tester
+        OccasionViewSet, StoreViewSet, LikeViewSet, find_gift, tester, backup
 
 admin.autodiscover()
 
@@ -29,6 +29,8 @@ urlpatterns = patterns('',
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     url(r'^api/find_gift/$', find_gift),
+    url(r'^yedekle/$', backup),
+
     url(r'^runtests/$', tester),
 
     # custom

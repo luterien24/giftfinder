@@ -33,7 +33,7 @@ def backup(request):
 
         r = requests.get(v)
 
-        key = k + "." + date_key
+        key = k + "." + str(date_key)
         
         file_path = os.path.join(settings.PROJECT_DIR + key)
 
